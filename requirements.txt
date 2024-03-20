@@ -1,0 +1,5 @@
+py-cord
+requests
+aiohttp
+dnspython
+pytz

@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  signtunebot:
+    image: signtunebotnew
+    network_mode: "host"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
