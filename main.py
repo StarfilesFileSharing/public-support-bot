@@ -52,7 +52,7 @@ def sizeof_fmt(num, suffix="B"):
 	return f"{num:.1f}Yi{suffix}"
 
 
-@bot.slash_command(guild_ids=[648551503891791912])
+@bot.slash_command()
 @option(
 	"attachment",
 	discord.Attachment,
@@ -75,7 +75,7 @@ async def upload(ctx, attachment: discord.Attachment):
 	if response.ok:
 			response = response.json()
 			bbb = requests.get(
-				"https://api.starfiles.co/file/fileinfo/" + response["file"], headers=headers
+				"https://api2.starfiles.co/file/" + response["file"], headers=headers
 			)
 			embed = discord.Embed(
 				title=f"{attachment.filename}",
@@ -146,7 +146,7 @@ class SearchView(discord.ui.View):
 			data = subprocess.Popen(
 				[
 					"curl",
-					"https://api.starfiles.co/file/fileinfo/" + id + "?prefetch=true",
+					"https://api2.starfiles.co/file" + id + "?prefetch=true",
 				]
 			)
 
@@ -193,7 +193,7 @@ class SearchView(discord.ui.View):
 				data = subprocess.Popen(
 					[
 						"curl",
-						"https://api.starfiles.co/file/fileinfo/"
+						"https://api2.starfiles.co/file"
 						+ id
 						+ "?prefetch=true",
 					]
@@ -241,7 +241,7 @@ class SearchView(discord.ui.View):
 		readabletime = utc_time.strftime("%Y-%m-%d %H:%M UTC")
 
 		data = requests.get(
-			"https://api.starfiles.co/file/fileinfo/" + id + "?fetch=true"
+			"https://api2.starfiles.co/file/" + id + "?fetch=true"
 		).json()
 		try:
 			bundleid = data["bundle_id"]
@@ -317,7 +317,7 @@ class SearchView(discord.ui.View):
 		readabletime = utc_time.strftime("%Y-%m-%d %H:%M UTC")
 
 		data = requests.get(
-			"https://api.starfiles.co/file/fileinfo/" + id + "?fetch=true"
+			"https://api2.starfiles.co/file/" + id + "?fetch=true"
 		).json()
 		try:
 			bundleid = data["bundle_id"]
@@ -344,7 +344,7 @@ class SearchView(discord.ui.View):
 			embed.add_field(name=f"Bundle ID: ", value=f"{bundleid}", inline=False)
 			embed.add_field(name=f"Version: ", value=f"{version}", inline=False)
 
-		embed.set_thumbnail(url=f"https://api.starfiles.co/file/icon/{id}")
+		embed.set_thumbnail(url=f"https://api2.starfiles.co/file/icon/{id}")
 		embed.set_footer(text=f"Result {self.value + 2} of {len(self.response)}")
 		self.remove_item(self.back)
 		self.remove_item(self.next)
@@ -396,7 +396,7 @@ class SearchView(discord.ui.View):
 			data = subprocess.Popen(
 				[
 					"curl",
-					"https://api.starfiles.co/file/fileinfo/" + id + "?prefetch=true",
+					"https://api2.starfiles.co/file/" + id + "?prefetch=true",
 				]
 			)
 
@@ -448,7 +448,7 @@ async def search(ctx, search: str):
 			data = subprocess.Popen(
 				[
 					"curl",
-					"https://api.starfiles.co/file/fileinfo/" + id + "?prefetch=true",
+					"https://api2.starfiles.co/file/" + id + "?prefetch=true",
 				]
 			)
 			embed = discord.Embed(
@@ -486,6 +486,9 @@ def parse_starfile_url(url):
 		data = url.split("/")
 		bid = data[4]
 	elif url.startswith("https://api.starfiles.co/direct/"):
+		data = url.split("/")
+		bid = data[4]
+	elif url.startswith("https://api2.starfiles.co/direct/"):
 		data = url.split("/")
 		bid = data[4]
 	elif not url.startswith("http"):
